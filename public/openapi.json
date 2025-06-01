@@ -15,6 +15,7 @@
       "post": {
         "operationId": "runSQL",
         "summary": "Execute a raw SQL query through the relay",
+        "description": "Accepts a plain text SQL string and returns JSON from Supabase.",
         "requestBody": {
           "required": true,
           "content": {
