@@ -17,7 +17,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(400).json({ error: "Invalid JSON" });
   }
 
-const { query } = req.body;
+const { query } = parsed;
 
 if (!query || typeof query !== "string") {
   return res.status(400).json({ error: "Invalid or missing SQL query." });
