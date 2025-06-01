@@ -10,7 +10,7 @@
       ]
     },
     {
-      "source": "/.well-known/ai-plugin.json",
+      "source": "/.well-known/ai-plugin-v2.json",
       "headers": [
         {
           "key": "Access-Control-Allow-Origin",
