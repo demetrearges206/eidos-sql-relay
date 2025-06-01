@@ -37,7 +37,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${SERVICE_ROLE_KEY}`,
       },
-      body: JSON.stringify({ query }),
+body: JSON.stringify({ query: { sql: query } }),
     });
 
     const data = await response.json();
