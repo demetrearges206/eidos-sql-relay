@@ -1,0 +1,30 @@
+openapi: 3.0.0
+info:
+  title: Vercel SQL Relay
+  version: 1.0.0
+paths:
+  /api/sql:
+    post:
+      summary: Run SQL query through relay
+      operationId: runSQL
+      requestBody:
+        required: true
+        content:
+          text/plain:
+            schema:
+              type: string
+              example: "select current_user, current_date;"
+      responses:
+        '200':
+          description: SQL query result
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                  error:
+                    type: object
