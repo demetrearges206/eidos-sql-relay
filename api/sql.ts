@@ -31,15 +31,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    const response = await fetch(`${SUPABASE_URL}/functions/v1/run-sql`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${SERVICE_ROLE_KEY}`,
-      },
-      body: JSON.stringify({ query }),
-    });
-
+const response = await fetch(`${SUPABASE_URL}/functions/v1/run-sql`, {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'text/plain',
+    'Authorization': `Bearer ${SERVICE_ROLE_KEY}`,
+  },
+  body: query,  // ✅ raw SQL string, not JSON-wrapped
+});
+    
     const data = await response.json();
     return res.status(response.status).json(data);
   } catch (err: any) {
