@@ -7,8 +7,8 @@ servers:
 paths:
   /api/sql:
     post:
-      summary: Run SQL query through relay
       operationId: runSQL
+      summary: Run SQL query through the Vercel relay
       requestBody:
         required: true
         content:
@@ -18,7 +18,7 @@ paths:
               example: "select current_user, current_date;"
       responses:
         '200':
-          description: SQL query result
+          description: Successful SQL response
           content:
             application/json:
               schema:
