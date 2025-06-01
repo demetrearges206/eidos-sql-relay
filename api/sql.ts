@@ -17,12 +17,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(400).json({ error: "Invalid JSON" });
   }
 
-  const query = parsed.query;
+const { query } = req.body;
 
-  if (!query || typeof query !== "string") {
-    return res.status(400).json({ error: "Invalid or missing SQL query." });
-  }
+if (!query || typeof query !== "string") {
+  return res.status(400).json({ error: "Invalid or missing SQL query." });
+}
 
+  
   const SUPABASE_URL = process.env.SUPABASE_URL;
   const SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
