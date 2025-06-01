@@ -7,7 +7,8 @@
   },
   "servers": [
     {
-      "url": "https://eidos-sql-relay.vercel.app"
+      "url": "https://eidos-sql-relay.vercel.app",
+      "description": "Relay server hosting the SQL endpoint"
     }
   ],
   "paths": {
