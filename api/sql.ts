@@ -7,20 +7,18 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    const query = req.body;
+    const { query } = req.body;
 
     if (typeof query !== 'string' || query.trim().length === 0) {
       return res.status(400).json({ error: 'Empty SQL query received' });
     }
 
-    const baseUrl = process.env.SUPABASE_URL?.trim();
-    if (!baseUrl || !baseUrl.startsWith('http')) {
-      throw new Error("SUPABASE_URL is missing or malformed.");
+    const supabaseUrl = process.env.SUPABASE_FUNCTION_URL?.trim();
+    if (!supabaseUrl || !supabaseUrl.startsWith('http')) {
+      throw new Error("SUPABASE_FUNCTION_URL is missing or malformed.");
     }
 
-    const functionUrl = baseUrl.replace('.supabase.co', '.functions.supabase.co') + '/functions/v1/run-sql';
-
-    const response = await fetch(functionUrl, {
+    const response = await fetch(`${supabaseUrl}/functions/v1/run-sql`, {
       method: 'POST',
       headers: {
         'Content-Type': 'text/plain',
