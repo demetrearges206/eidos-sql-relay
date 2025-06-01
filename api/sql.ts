@@ -1,9 +1,7 @@
-// /api/sql.ts
-
 import { VercelRequest, VercelResponse } from "@vercel/node";
 import fetch from "node-fetch";
 
-export default async function handler(req: VercelRequest, res: VVercelResponse) {
+export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method Not Allowed" });
   }
@@ -33,7 +31,10 @@ export default async function handler(req: VercelRequest, res: VVercelResponse) 
 
     const data = await response.json();
     return res.status(response.status).json(data);
-  } catch (err) {
-    return res.status(500).json({ error: "Failed to forward SQL to Supabase", detail: err.message });
+  } catch (err: any) {
+    return res.status(500).json({
+      error: "Failed to forward SQL to Supabase",
+      detail: err.message,
+    });
   }
 }
