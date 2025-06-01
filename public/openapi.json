@@ -49,14 +49,13 @@
               }
             }
           }
-        },
-        "x-codegen-request-body-name": "rawSQL"
+        }
       }
     }
   },
   "x-openai-isChatCompletionsTool": true,
   "x-openai-name": "executeSQL",
-  "x-openai-description": "Execute raw SQL commands against Supabase via Vercel relay.",
+  "x-openai-description": "Execute raw SQL against Supabase through Vercel.",
   "x-openai-models": [
     "gpt-4",
     "gpt-4o"
