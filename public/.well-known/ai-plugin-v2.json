@@ -9,7 +9,7 @@
   },
   "api": {
   "type": "openapi",
-  "url": "https://eidos-sql-relay.vercel.app/openapi.json?v=2"
+  "url": "https://eidos-sql-relay.vercel.app/openapi-v2.json?v=2"
 },
   "logo_url": "https://eidos-sql-relay.vercel.app/gpt_bridge.png",
   "contact_email": "demetrearges@gmail.com",
