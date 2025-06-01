@@ -1,5 +1,5 @@
 {
-  "openapi": "3.0.1",
+  "openapi": "3.1.0",
   "info": {
     "title": "Vercel SQL Relay",
     "version": "1.0.0",
@@ -11,17 +11,23 @@
     }
   ],
   "paths": {
-    "/api/sql": {
+    "/sql": {
       "post": {
         "operationId": "executeSQL",
         "summary": "Execute SQL via relay",
         "requestBody": {
           "required": true,
           "content": {
-            "text/plain": {
+            "application/json": {
               "schema": {
-                "type": "string",
-                "example": "SELECT now();"
+                "type": "object",
+                "properties": {
+                  "query": {
+                    "type": "string",
+                    "example": "SELECT now();"
+                  }
+                },
+                "required": ["query"]
               }
             }
           }
