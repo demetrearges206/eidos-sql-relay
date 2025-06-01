@@ -19,20 +19,15 @@
      "requestBody": {
   "required": true,
   "content": {
-    "application/json": {
+    "text/plain": {
       "schema": {
-        "type": "object",
-        "properties": {
-          "query": {
-            "type": "string",
-            "example": "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public';"
-          }
-        },
-        "required": ["query"]
+        "type": "string",
+        "description": "Raw SQL query string"
       }
     }
   }
-},
+}
+,
         "responses": {
           "200": {
             "description": "Execution result",
