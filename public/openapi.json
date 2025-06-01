@@ -3,7 +3,7 @@
   "info": {
     "title": "Vercel SQL Relay",
     "version": "1.0.0",
-    "description": "Submit raw SQL to Supabase via a Vercel relay."
+    "description": "Submit raw SQL queries to Supabase through a Vercel relay endpoint."
   },
   "servers": [
     {
@@ -53,5 +53,12 @@
         "x-codegen-request-body-name": "rawSQL"
       }
     }
-  }
+  },
+  "x-openai-isChatCompletionsTool": true,
+  "x-openai-name": "executeSQL",
+  "x-openai-description": "Execute raw SQL commands against Supabase via Vercel relay.",
+  "x-openai-models": [
+    "gpt-4",
+    "gpt-4o"
+  ]
 }
