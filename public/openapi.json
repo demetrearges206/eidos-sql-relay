@@ -16,23 +16,17 @@
       "post": {
         "operationId": "executeSQL",
         "summary": "Execute SQL via relay",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "query": {
-                    "type": "string",
-                    "example": "SELECT now();"
-                  }
-                },
-                "required": ["query"]
-              }
-            }
-          }
-        },
+       "requestBody": {
+  "required": true,
+  "content": {
+    "text/plain": {
+      "schema": {
+        "type": "string",
+        "example": "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public';"
+      }
+    }
+  }
+},
         "responses": {
           "200": {
             "description": "Execution result",
