@@ -22,7 +22,6 @@ const { query } = parsed;
 if (!query || typeof query !== "string") {
   return res.status(400).json({ error: "Invalid or missing SQL query." });
 }
-
   
   const SUPABASE_URL = process.env.SUPABASE_URL;
   const SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -38,7 +37,7 @@ if (!query || typeof query !== "string") {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${SERVICE_ROLE_KEY}`,
       },
-body: JSON.stringify({ query }),
+body: JSON.stringify({ query: query }),
     });
 
     const data = await response.json();
