@@ -1,5 +1,4 @@
 import { VercelRequest, VercelResponse } from "@vercel/node";
-import fetch from "node-fetch"; // ← ADD THIS LINE
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "POST") {
@@ -23,10 +22,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const response = await fetch(`${SUPABASE_URL}/functions/v1/run-sql`, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "text/plain",
         "Authorization": `Bearer ${SERVICE_ROLE_KEY}`,
       },
-      body: JSON.stringify({ query }),
+      body: query, // 🟢 Send raw SQL as plain text
     });
 
     const data = await response.json();
