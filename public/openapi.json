@@ -12,7 +12,7 @@
     }
   ],
   "paths": {
-    "/sql": {
+    "/api/sql": {
       "post": {
         "operationId": "executeSQL",
         "summary": "Execute SQL via relay",
