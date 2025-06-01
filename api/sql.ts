@@ -1,5 +1,11 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 
+export const config = {
+  api: {
+    bodyParser: false, // <-- disables Vercel's default JSON parser
+  },
+};
+
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method Not Allowed" });
@@ -28,7 +34,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         "Content-Type": "text/plain",
         "Authorization": `Bearer ${SERVICE_ROLE_KEY}`,
       },
-      body: rawBody, // <-- send raw SQL string
+      body: rawBody,
     });
 
     const data = await response.json();
