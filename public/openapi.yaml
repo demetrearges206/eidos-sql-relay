@@ -2,6 +2,8 @@ openapi: 3.0.0
 info:
   title: Vercel SQL Relay
   version: 1.0.0
+servers:
+  - url: https://eidos-sql-relay.vercel.app
 paths:
   /api/sql:
     post:
