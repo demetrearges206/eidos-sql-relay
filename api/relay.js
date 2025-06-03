@@ -10,6 +10,17 @@ export default async function handler(req, res) {
 
   try {
     const client = await pool.connect();
+// Raw SQL fallback for plugin compatibility
+if (!type && req.body.query) {
+  const result = await client.query(req.body.query);
+  client.release();
+  return res.status(200).json({
+    status: 'success',
+    results: result.rows,
+    affected: result.rowCount,
+    action: 'sql'
+  });
+}
 
     switch (type) {
       case 'sql': {
