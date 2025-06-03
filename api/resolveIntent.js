@@ -7,35 +7,56 @@ const pool = new Pool({
   ssl: { rejectUnauthorized: false }
 });
 
+const resolveIntent = (intent) => {
+  const lowered = intent.toLowerCase();
+
+  if (lowered.includes('phase 3') && lowered.includes('status')) {
+    return {
+      action: 'status_update',
+      sql: `
+        update codex_modules
+        set status = 'complete', updated_at = now()
+        where lower(label) like '%phase 3%' or lower(description) like '%phase 3%'
+      `
+    };
+  }
+
+  if (lowered.includes('tag') && lowered.includes('relay_identity_reflex')) {
+    return {
+      action: 'add_tag',
+      sql: `
+        update codex_modules
+        set tags = array_append(tags, 'vital'), updated_at = now()
+        where label ilike '%relay_identity_reflex%'
+      `
+    };
+  }
+
+  return null;
+};
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method Not Allowed' });
 
   const { intent } = req.body;
   if (!intent) return res.status(400).json({ error: 'Missing intent' });
 
-  // TODO: Plug in a smarter resolver here
-  // For now, use simple pattern matching or static test case
-  if (intent.includes('Phase 3') && intent.includes('status')) {
-    const updateQuery = `
-      update codex_modules
-      set status = 'complete', updated_at = now()
-      where label ilike '%phase_3%' or description ilike '%Phase 3%'
-    `;
-
-    try {
-      const client = await pool.connect();
-      const result = await client.query(updateQuery);
-      client.release();
-
-      return res.status(200).json({
-        status: 'success',
-        affected: result.rowCount,
-        action: 'status update'
-      });
-    } catch (err) {
-      return res.status(500).json({ status: 'error', message: err.message });
-    }
+  const intentResolved = resolveIntent(intent);
+  if (!intentResolved) {
+    return res.status(400).json({ error: 'Unrecognized intent' });
   }
 
-  return res.status(400).json({ error: 'Unrecognized intent' });
+  try {
+    const client = await pool.connect();
+    const result = await client.query(intentResolved.sql);
+    client.release();
+
+    return res.status(200).json({
+      status: 'success',
+      affected: result.rowCount,
+      action: intentResolved.action
+    });
+  } catch (err) {
+    return res.status(500).json({ status: 'error', message: err.message });
+  }
 }
