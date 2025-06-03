@@ -1,12 +1,12 @@
 import { Pool } from 'pg';
 
 const pool = new Pool({
-  connectionString: process.env.SUPABASE_DB_URL,
+  connectionString: process.env.SUPABASE_DB_URL + '?sslmode=require',
   ssl: {
-    rejectUnauthorized: false,
-    require: true
+    rejectUnauthorized: false
   }
 });
+
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method Not Allowed' });
