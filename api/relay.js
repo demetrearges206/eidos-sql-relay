@@ -5,9 +5,6 @@ const pool = new Pool({ connectionString: process.env.SUPABASE_DB_URL + '?sslmod
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method Not Allowed' });
 
-  const { type, payload } = req.body;
-  if (!type || !payload) return res.status(400).json({ error: 'Missing type or payload' });
-
   try {
     const client = await pool.connect();
 // Raw SQL fallback for plugin compatibility
@@ -21,7 +18,10 @@ if (!type && req.body.query) {
     action: 'sql'
   });
 }
-
+ 
+  const { type, payload } = req.body;
+  if (!type || !payload) return res.status(400).json({ error: 'Missing type or payload' });
+  
     switch (type) {
       case 'sql': {
         const { query } = payload;
