@@ -1,9 +1,12 @@
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+
 import { Pool } from 'pg';
 
 const pool = new Pool({
   connectionString: process.env.SUPABASE_DB_URL + '?sslmode=require',
   ssl: { rejectUnauthorized: false }
 });
+
 
 
 
