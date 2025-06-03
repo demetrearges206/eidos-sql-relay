@@ -7,17 +7,18 @@ export default async function handler(req, res) {
 
   try {
     const client = await pool.connect();
-// Raw SQL fallback for plugin compatibility
-if (!type && req.body.query) {
-  const result = await client.query(req.body.query);
-  client.release();
-  return res.status(200).json({
-    status: 'success',
-    results: result.rows,
-    affected: result.rowCount,
-    action: 'sql'
-  });
-}
+
+    // ✅ Raw SQL fallback (before type is destructured)
+    if (req.body.query && typeof req.body.query === 'string') {
+      const result = await client.query(req.body.query);
+      client.release();
+      return res.status(200).json({
+        status: 'success',
+        results: result.rows,
+        affected: result.rowCount,
+        action: 'sql'
+      });
+    }
  
   const { type, payload } = req.body;
   if (!type || !payload) return res.status(400).json({ error: 'Missing type or payload' });
