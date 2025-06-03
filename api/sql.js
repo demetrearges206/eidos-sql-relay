@@ -1,9 +1,9 @@
-import { createClient } from '@supabase/supabase-js';
+import { Pool } from 'pg';
 
-const supabase = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_KEY
-);
+const pool = new Pool({
+  connectionString: process.env.SUPABASE_DB_URL,
+  ssl: { rejectUnauthorized: false }
+});
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method Not Allowed' });
@@ -12,9 +12,11 @@ export default async function handler(req, res) {
   if (!query) return res.status(400).json({ error: 'Missing SQL query' });
 
   try {
-    const { data, error } = await supabase.rpc('execute_raw_sql', { raw_sql: query });
-    if (error) throw error;
-    res.status(200).json({ status: 'success', data });
+    const client = await pool.connect();
+    const result = await client.query(query);
+    client.release();
+
+    res.status(200).json({ status: 'success', rows: result.rows });
   } catch (err) {
     res.status(500).json({ status: 'error', message: err.message });
   }
